@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App'
+import ShoppingListEdit from './components/ShoppingListEdit'
 
 const Router = () => {
   return (
@@ -7,11 +8,9 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<App />} />
-          {/* <Route path="teams" element={<Teams />}>
-            <Route path=":teamId" element={<Team />} />
-            <Route path="new" element={<NewTeamForm />} />
-            <Route index element={<LeagueStandings />} />
-          </Route> */}
+          <Route path="shoppinglist" element={<ShoppingListEdit />}>
+            <Route path=":itemId" element={<ShoppingListEdit />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
