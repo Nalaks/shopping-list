@@ -1,18 +1,22 @@
+import { FC } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App'
+import Layout from './components/Layout'
+import ShoppingList from './components/ShoppingList'
 import ShoppingListEdit from './components/ShoppingListEdit'
 
-const Router = () => {
+const Router: FC = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route index element={<App />} />
-          <Route path="shoppinglist" element={<ShoppingListEdit />}>
-            <Route path=":itemId" element={<ShoppingListEdit />} />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route index element={<App />} />
           </Route>
-        </Route>
-      </Routes>
+          <Route path="shopping-list" element={<ShoppingList />} />
+          <Route path="shopping-list/:itemId" element={<ShoppingListEdit />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   )
 }

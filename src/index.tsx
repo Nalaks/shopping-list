@@ -1,18 +1,20 @@
 import { ChakraProvider, ColorModeScript, theme } from '@chakra-ui/react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Layout from './components/Layout'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import reportWebVitals from './reportWebVitals'
 import Router from './Router'
+
+const queryClient = new QueryClient()
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <ChakraProvider>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <Layout>
+      <QueryClientProvider client={queryClient}>
         <Router />
-      </Layout>
+      </QueryClientProvider>
     </ChakraProvider>
   </React.StrictMode>,
 )

@@ -29,5 +29,8 @@ module.exports = {
       { namedComponents: 'arrow-function' },
     ],
     'import/no-named-as-default': 'off',
+    '@typescript-eslint/lines-between-class-members': 'off',
+    'no-console': 'off',
+    '@typescript-eslint/no-unused-vars': 1,
   },
 }
