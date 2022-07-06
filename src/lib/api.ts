@@ -2,17 +2,19 @@ import { IShoppingListItem } from '../types/types'
 
 const url = 'http://localhost:3001/shoppingList'
 
-const getShoppingListItems = async (): Promise<IShoppingListItem[]> => {
+export const getShoppingListItems = async (): Promise<IShoppingListItem[]> => {
   const response = await fetch(url)
   return response.json()
 }
 
-const getShoppingListItem = async (id: number): Promise<any> => {
+export const getShoppingListItem = async (
+  id: number,
+): Promise<IShoppingListItem> => {
   const response = await fetch(`${url}/${id}`)
   return response.json()
 }
 
-const createShoppingListItem = async (
+export const createShoppingListItem = async (
   shoppingListItem: IShoppingListItem,
 ): Promise<IShoppingListItem> => {
   const response = await fetch(url, {
@@ -25,7 +27,7 @@ const createShoppingListItem = async (
   return response.json()
 }
 
-const updateShoppingListItem = async (
+export const updateShoppingListItem = async (
   shoppingListItem: IShoppingListItem,
 ): Promise<IShoppingListItem> => {
   const response = await fetch(`${url}/${shoppingListItem.id}`, {
@@ -38,19 +40,11 @@ const updateShoppingListItem = async (
   return response.json()
 }
 
-const deleteShoppingListItem = async (
+export const deleteShoppingListItem = async (
   id: number,
 ): Promise<IShoppingListItem> => {
   const response = await fetch(`${url}/${id}`, {
     method: 'DELETE',
   })
   return response.json()
-}
-
-export {
-  getShoppingListItems,
-  getShoppingListItem,
-  createShoppingListItem,
-  updateShoppingListItem,
-  deleteShoppingListItem,
 }

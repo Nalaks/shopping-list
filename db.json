@@ -5,13 +5,13 @@
       "description": "get free range ones",
       "amount": "12",
       "unit": "pieces",
-      "done": false,
+      "done": true,
       "id": 1
     },
     {
-      "title": "Tomatoes",
+      "title": "tomatos",
       "description": "get the little cherry tomatoes",
-      "amount": "1",
+      "amount": "12",
       "unit": "kg",
       "done": true,
       "id": 2

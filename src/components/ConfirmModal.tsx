@@ -25,7 +25,7 @@ const ConfirmModal: FC<ModalProps> = ({ onDelete, isOpen, onClose }) => {
         alignItems="center"
         justifyContent="center"
       >
-        <ModalHeader>Confirm Delete</ModalHeader>
+        <ModalHeader>Confirm Deletion</ModalHeader>
         <ModalCloseButton />
         <ModalBody>Are you sure you want to delete this item?</ModalBody>
         <ModalFooter>

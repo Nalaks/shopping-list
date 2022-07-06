@@ -10,12 +10,15 @@ import {
   Select,
   Grid,
   GridItem,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react'
 import { IShoppingListItem } from '../types/types'
 import ShoppingListItem from './ShoppingListItem'
 import { getShoppingListItems } from '../lib/api'
 
 const ShoppingList: FC = () => {
+  /* Destructuring the data from the useQuery hook. */
   const { data, isLoading, isError } = useQuery(
     'shoppingList',
     getShoppingListItems,
@@ -86,7 +89,12 @@ const ShoppingList: FC = () => {
           <CircularProgress isIndeterminate color="blue.300" size="120px" />
         </Center>
       )}
-      {isError && <h2>Oops! Something went wrong. Please try again.</h2>}
+      {isError && (
+        <Alert status="error">
+          <AlertIcon />
+          There was an error processing your request
+        </Alert>
+      )}
       <Grid templateColumns="repeat(3, 1fr)" gap={6} my={4}>
         <GridItem w="100%">
           <FormControl display="flex" alignItems="center">
@@ -115,7 +123,7 @@ const ShoppingList: FC = () => {
         <GridItem w="100%" display="flex" alignItems="center">
           <FormControl display="flex" alignItems="center">
             <FormLabel htmlFor="row-column" mb="0">
-              Format:
+              Layout:
             </FormLabel>
             <Switch id="row-column" onChange={handleToggleFormat} />
           </FormControl>

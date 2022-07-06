@@ -10,11 +10,14 @@ import {
   useColorModeValue,
   Textarea,
   Select,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react'
 import { FC, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { createShoppingListItem } from '../lib/api'
 import units from '../lib/helper'
+import { IFormError } from '../types/types'
 
 const ShoppingListForm: FC = () => {
   const queryClient = useQueryClient()
@@ -26,11 +29,25 @@ const ShoppingListForm: FC = () => {
     done: false,
   })
 
+  const [formError, setFormError] = useState<IFormError | null>(null)
+  /* A hook that is used to create a mutation. It takes two arguments, the first is the mutation
+  function and the second is an object with options. The onSuccess option is a callback that is
+  called when the mutation is successful. In this case, it is invalidating the shoppingList query. */
   const mutation = useMutation(createShoppingListItem, {
     onSuccess: () => queryClient.invalidateQueries('shoppingList'),
   })
 
   const handleSubmit = () => {
+    if (formData.title.length === 0) {
+      setFormError({ title: 'The title cannot be empty' })
+      return
+    }
+    if (+formData.amount < 0 || formData.amount === '') {
+      setFormError({
+        amount: 'Amount has to be greater than 0',
+      })
+      return
+    }
     mutation.mutate(formData)
     setFormData({
       title: '',
@@ -40,6 +57,17 @@ const ShoppingListForm: FC = () => {
       done: false,
     })
   }
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormError(null)
+    setFormData({ ...formData, title: e.target.value })
+  }
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormError(null)
+    setFormData({ ...formData, amount: e.target.value })
+  }
+
   return (
     <Flex
       align="center"
@@ -61,14 +89,18 @@ const ShoppingListForm: FC = () => {
               <FormLabel>Title*</FormLabel>
               <Input
                 type="text"
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
+                onChange={handleTitleChange}
                 value={formData.title}
-                placeholder="Nutmeg"
+                placeholder="Eggs"
                 required
               />
             </FormControl>
+            {formError?.title && (
+              <Alert status="error">
+                <AlertIcon />
+                {formError.title}
+              </Alert>
+            )}
             <FormControl id="description">
               <FormLabel>Description</FormLabel>
               <Textarea
@@ -77,7 +109,7 @@ const ShoppingListForm: FC = () => {
                   setFormData({ ...formData, description: e.target.value })
                 }
                 value={formData.description}
-                placeholder="in aisle 6"
+                placeholder="Get free range eggs"
               />
             </FormControl>
             <FormControl id="amount">
@@ -85,13 +117,17 @@ const ShoppingListForm: FC = () => {
               <Input
                 type="number"
                 value={formData.amount}
-                onChange={(e) =>
-                  setFormData({ ...formData, amount: e.target.value })
-                }
-                placeholder="12"
+                onChange={handleAmountChange}
+                placeholder="2"
                 required
               />
             </FormControl>
+            {formError?.amount && (
+              <Alert status="error">
+                <AlertIcon />
+                {formError.amount}
+              </Alert>
+            )}
             <FormControl>
               <FormLabel>Unit</FormLabel>
               <Select

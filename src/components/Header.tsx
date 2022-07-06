@@ -7,25 +7,30 @@ import {
   useColorMode,
   Link,
   Heading,
+  Text,
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { Link as RouterLink } from 'react-router-dom'
+import { FC } from 'react'
 
-const Header = () => {
+const Header: FC = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   return (
-    <Box bg={useColorModeValue('teal.400', 'gray.900')} px={4}>
+    <Box bg={useColorModeValue('blue.400', 'gray.700')} px={4}>
       <Flex h={20} alignItems="center" justifyContent="space-between" mx={8}>
         <Link as={RouterLink} to="/" _hover={{ textDecoration: 'none' }}>
-          <Heading as="h5">Shopping List</Heading>
+          <Heading as="h5">Shopping List App</Heading>
         </Link>
         <Flex alignItems="center">
           <Stack direction="row" spacing={6} alignItems="center">
             <Link as={RouterLink} to="/">
-              Home
+              <Text fontSize="xl">Home</Text>
+            </Link>
+            <Link as={RouterLink} to="/shopping-list">
+              <Text fontSize="xl">Shopping List</Text>
             </Link>
             <Link as={RouterLink} to="/about">
-              About
+              <Text fontSize="xl">About</Text>
             </Link>
             <Button onClick={toggleColorMode}>
               {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}

@@ -13,12 +13,14 @@ import {
   Select,
   Center,
   CircularProgress,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react'
 import { FC, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { getShoppingListItems, updateShoppingListItem } from '../lib/api'
 import units from '../lib/helper'
-import { IShoppingListItem } from '../types/types'
+import { IFormError, IShoppingListItem } from '../types/types'
 
 const ShoppingListEdit: FC = () => {
   const { itemId } = useParams()
@@ -33,13 +35,35 @@ const ShoppingListEdit: FC = () => {
     data!.find((item) => item.id === +itemId!) as IShoppingListItem,
   )
 
+  const [formError, setFormError] = useState<IFormError | null>(null)
+
   const mutation = useMutation(updateShoppingListItem, {
     onSuccess: () => queryClient.invalidateQueries('shoppingList'),
   })
 
   const handleUpdate = () => {
+    if (formData.title.length === 0) {
+      setFormError({ title: 'The title cannot be empty' })
+      return
+    }
+    if (+formData.amount < 0 || formData.amount === '') {
+      setFormError({
+        amount: 'Amount has to be greater than 0',
+      })
+      return
+    }
     mutation.mutate(formData!)
     navigate('/')
+  }
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormError(null)
+    setFormData({ ...formData, title: e.target.value })
+  }
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormError(null)
+    setFormData({ ...formData, amount: e.target.value })
   }
   return (
     <Flex
@@ -52,7 +76,12 @@ const ShoppingListEdit: FC = () => {
           <CircularProgress isIndeterminate color="blue.300" size="120px" />
         </Center>
       )}
-      {isError && <h2>Oops! Something went wrong. Please try again.</h2>}
+      {isError && (
+        <Alert status="error">
+          <AlertIcon />
+          There was an error processing your request
+        </Alert>
+      )}
       <Stack spacing={4} py={6} px={6} width="30vw">
         <Stack align="center">
           <Heading fontSize="4xl">Update item</Heading>
@@ -65,15 +94,19 @@ const ShoppingListEdit: FC = () => {
         >
           <Stack spacing={2}>
             <FormControl id="title">
-              <FormLabel>Title</FormLabel>
+              <FormLabel>Title*</FormLabel>
               <Input
                 type="text"
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
+                onChange={handleTitleChange}
                 value={formData.title}
               />
             </FormControl>
+            {formError?.title && (
+              <Alert status="error">
+                <AlertIcon />
+                {formError.title}
+              </Alert>
+            )}
             <FormControl id="description">
               <FormLabel>Description</FormLabel>
               <Textarea
@@ -85,15 +118,19 @@ const ShoppingListEdit: FC = () => {
               />
             </FormControl>
             <FormControl id="amount">
-              <FormLabel>Amount</FormLabel>
+              <FormLabel>Amount*</FormLabel>
               <Input
                 type="number"
                 value={formData.amount}
-                onChange={(e) =>
-                  setFormData({ ...formData, amount: e.target.value })
-                }
+                onChange={handleAmountChange}
               />
             </FormControl>
+            {formError?.amount && (
+              <Alert status="error">
+                <AlertIcon />
+                {formError.amount}
+              </Alert>
+            )}
             <FormControl>
               <FormLabel>Unit</FormLabel>
               <Select

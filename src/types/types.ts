@@ -20,3 +20,8 @@ export interface ModalProps {
   onClose: () => void
   isOpen: boolean
 }
+
+export interface IFormError {
+  title?: string
+  amount?: string
+}

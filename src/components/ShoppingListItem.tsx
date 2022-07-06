@@ -42,7 +42,7 @@ const ShoppingListItem: FC<ShoppingListItemProps> = ({ item }) => {
     <Center p={4}>
       <Box
         w="30vw"
-        bg={useColorModeValue('white', 'gray.900')}
+        bg={useColorModeValue('white', 'gray.700')}
         boxShadow="2xl"
         rounded="md"
         p={6}
