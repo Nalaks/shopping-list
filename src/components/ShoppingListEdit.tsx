@@ -53,7 +53,7 @@ const ShoppingListEdit: FC = () => {
       return
     }
     mutation.mutate(formData!)
-    navigate('/')
+    navigate('/shopping-list')
   }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
