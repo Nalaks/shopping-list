@@ -1,6 +1,6 @@
 import { IShoppingListItem } from '../types/types'
 
-const url = 'http://localhost:3001/shoppingList'
+const url = 'http://localhost:3333/api/shopping-list'
 
 export const getShoppingListItems = async (): Promise<IShoppingListItem[]> => {
   const response = await fetch(url)

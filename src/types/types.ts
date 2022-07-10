@@ -2,7 +2,7 @@ export interface IShoppingListItem {
   id?: number
   title: string
   description?: string
-  amount: string | number
+  amount: number
   unit?: string
   done: boolean
 }

@@ -48,7 +48,7 @@ const ShoppingListForm: FC = () => {
       })
       return
     }
-    mutation.mutate(formData)
+    mutation.mutate({ ...formData, amount: +formData.amount })
     setFormData({
       title: '',
       description: '',

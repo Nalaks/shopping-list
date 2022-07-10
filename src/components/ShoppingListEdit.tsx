@@ -46,7 +46,7 @@ const ShoppingListEdit: FC = () => {
       setFormError({ title: 'The title cannot be empty' })
       return
     }
-    if (+formData.amount < 0 || formData.amount === '') {
+    if (formData.amount < 0 || String(formData.amount) === '') {
       setFormError({
         amount: 'Amount has to be greater than 0',
       })
@@ -63,7 +63,7 @@ const ShoppingListEdit: FC = () => {
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormError(null)
-    setFormData({ ...formData, amount: e.target.value })
+    setFormData({ ...formData, amount: +e.target.value })
   }
   return (
     <Flex
